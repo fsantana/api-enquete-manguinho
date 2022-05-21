@@ -1,10 +1,9 @@
 import { MongoHelper } from '../helpers/mongo-helpers'
 import { AccountMongoRepository } from './account'
-const mongoUrl = process.env.MONGO_URL ?? ''
 
 describe('Account Mongo Repository', () => {
   beforeAll(async () => {
-    await MongoHelper.connect(mongoUrl)
+    await MongoHelper.connect(process.env.MONGO_URL ?? '')
   })
 
   afterAll(async () => {
