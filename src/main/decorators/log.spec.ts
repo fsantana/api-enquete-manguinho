@@ -6,13 +6,15 @@ interface SutTypes {
   controllerStub: Controller
 }
 
+const responseStub: HttpResponse = {
+  statusCode: 200,
+  body: {}
+}
+
 const makeController = (): Controller => {
   class ControllerStub implements Controller {
     async handle (httpRequest: HttpRequest): Promise<HttpResponse> {
-      const httpResponse: HttpResponse = {
-        statusCode: 200,
-        body: {}
-      }
+      const httpResponse: HttpResponse = { ...responseStub }
       return await new Promise(resolve => resolve(httpResponse))
     }
   }
@@ -39,5 +41,16 @@ describe('Log Controller Decorator', () => {
     }
     await sut.handle(httpRequest)
     expect(handleSpy).toHaveBeenCalledWith(httpRequest)
+  })
+
+  test('Should return the sema reasult of the controller', async () => {
+    const { sut } = makeSut()
+    const httpRequest: HttpRequest = {
+      body: {
+        email: 'any_mail@mail.com'
+      }
+    }
+    const httpResponse = await sut.handle(httpRequest)
+    expect(httpResponse).toEqual(responseStub)
   })
 })
