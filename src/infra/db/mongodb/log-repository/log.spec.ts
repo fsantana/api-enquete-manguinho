@@ -1,5 +1,4 @@
 import { Collection } from 'mongodb'
-import { LogErrorRepository } from '../../../../data/protocols/log-error-repository'
 import env from '../../../../main/config/env'
 import { MongoHelper } from '../helpers/mongo-helper'
 import { LogMongoRepository } from './log'
@@ -19,7 +18,7 @@ describe('Log Mongo Repository', () => {
     await errorCollection.deleteMany({})
   })
 
-  const makeSut = (): LogErrorRepository => {
+  const makeSut = (): LogMongoRepository => {
     return new LogMongoRepository()
   }
 
