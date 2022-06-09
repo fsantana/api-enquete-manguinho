@@ -25,15 +25,15 @@ describe('Bcrypt Adapter', () => {
     const hash = await sut.encrypt('any_value')
     expect(hash).toBe('hash')
   })
-/*
+
   test('Should thrown if bcrypt throws', async () => {
     const sut = makeSut()
-
-    jest.spyOn(bcrypt, 'hash').mockReturnValueOnce(new Promise((resolve, reject) => reject(new Error())))
-
+    // eslint-disable-next-line @typescript-eslint/no-misused-promises
+    jest.spyOn(bcrypt, 'hash').mockImplementationOnce(async (data: string | Buffer, saltOrRounds: string | number): Promise<string> => {
+      // eslint-disable-next-line @typescript-eslint/return-await
+      return new Promise((resolve, reject) => reject(new Error()))
+    })
     const promise = sut.encrypt('any_value')
-    // eslint-disable-next-line @typescript-eslint/no-floating-promises
-    expect(promise).rejects.toThrow()
+    await expect(promise).rejects.toThrow()
   })
-*/
 })
