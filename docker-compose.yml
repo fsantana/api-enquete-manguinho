@@ -2,10 +2,25 @@ version: "3"
 services:
   mongo:
     container_name: mongo-container
-    image: mongo:3
+    image: mongo:5
     volumes:
-      - api-manguinho:/data/db
+      - clean-node-api-data:/data/db
     ports:
       - "27017:27017"
+  api:
+    container_name: api-container
+    build: .
+    image: clean-node-api
+    command: npm start
+    volumes:
+      - ./dist:/app/dist
+    ports:
+      - "5050:5050"
+    environment:
+      - PORT=5050
+      - JWT_SECRET=Lf-*23f)dto3
+      - MONGO_URL=mongodb://mongo:27017/clean-node-api
+    links:
+     - mongo
 volumes:
-  api-manguinho:
+  clean-node-api-data:
